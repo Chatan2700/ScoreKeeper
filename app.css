@@ -1,1 +1,7 @@
-aler
+.winner {
+  color: green;
+}
+
+.loser {
+  color: red;
+}

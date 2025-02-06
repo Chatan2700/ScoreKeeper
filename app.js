@@ -2,55 +2,59 @@
 const span01 = document.querySelector("#score-01"); // Score P1
 const span02 = document.querySelector("#score-02"); // Score P2
 // Select the buttons
-const btn1 = document.querySelector("#btn-01"); // +1 P1
-const btn2 = document.querySelector("#btn-02"); // +1 P2
-const btn3 = document.querySelector("#btn-03"); // Reset
+const btnP1 = document.querySelector("#btn-P1"); // +1 P1
+const btnP2 = document.querySelector("#btn-P2"); // +1 P2
+const btnReset = document.querySelector("#btn-reset"); // Reset
+// Select the Selector
+const maxScoreSelector = document.querySelector("#max-score");
 // Score variables
 let scorePlayer1 = 0;
 let scorePlayer2 = 0;
-let winningScore = 5;
+let winningScore = 3;
+let isGameOver = false;
 
 // Event when btn clicked +1 Player 1
-btn1.addEventListener("click", function (e) {
-  scorePlayer1 += 1;
-  span01.textContent = scorePlayer1;
-  winnerPlayer(scorePlayer1, scorePlayer2);
+btnP1.addEventListener("click", function (e) {
+  if (!isGameOver) {
+    scorePlayer1 += 1;
+    if (scorePlayer1 === winningScore) {
+      isGameOver = true;
+      span01.classList.add("winner");
+      span02.classList.add("loser");
+    }
+    span01.textContent = scorePlayer1;
+  }
 });
 
 // Event when btn clicked +1 Player 2
-btn2.addEventListener("click", function (e) {
-  scorePlayer2 += 1;
-  span02.textContent = scorePlayer2;
-  winnerPlayer(scorePlayer1, scorePlayer2);
+btnP2.addEventListener("click", function (e) {
+  if (!isGameOver) {
+    scorePlayer2 += 1;
+    if (scorePlayer2 === winningScore) {
+      isGameOver = true;
+      span01.classList.add("loser");
+      span02.classList.add("winner");
+    }
+    span02.textContent = scorePlayer2;
+  }
 });
 
-// Event when btn clicked Reset scores, textContent  & disabled states
-btn3.addEventListener("click", function (e) {
+// Event Reset the game
+btnReset.addEventListener("click", reset);
+
+// Select Event on Change
+maxScoreSelector.addEventListener("change", function () {
+  // alert(this.value);
+  winningScore = parseInt(this.value);
+  reset();
+});
+
+function reset() {
+  isGameOver = false;
   scorePlayer1 = 0;
   scorePlayer2 = 0;
-
   span01.textContent = "0";
   span02.textContent = "0";
-
-  btn1.disabled = false;
-  btn2.disabled = false;
-});
-
-// Checks every time a btn is pressed if one of the two player has won
-function winnerPlayer(score1, score2) {
-  if (score1 >= winningScore) {
-    disablebtns();
-    return console.log("player 1 won");
-  }
-
-  if (score2 >= winningScore) {
-    disablebtns();
-    return console.log("player 2 won");
-  }
+  span01.classList.remove("winner", "loser");
+  span02.classList.remove("winner", "loser");
 }
-
-// Disable buttons function
-const disablebtns = () => {
-  btn1.disabled = true;
-  btn2.disabled = true;
-};
