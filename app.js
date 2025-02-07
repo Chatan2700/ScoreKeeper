@@ -19,8 +19,9 @@ btnP1.addEventListener("click", function (e) {
     scorePlayer1 += 1;
     if (scorePlayer1 === winningScore) {
       isGameOver = true;
-      span01.classList.add("winner");
-      span02.classList.add("loser");
+      span01.classList.add("has-text-success");
+      span02.classList.add("has-text-danger");
+      disablebtns();
     }
     span01.textContent = scorePlayer1;
   }
@@ -32,8 +33,9 @@ btnP2.addEventListener("click", function (e) {
     scorePlayer2 += 1;
     if (scorePlayer2 === winningScore) {
       isGameOver = true;
-      span01.classList.add("loser");
-      span02.classList.add("winner");
+      span01.classList.add("has-text-danger");
+      span02.classList.add("has-text-success");
+      disablebtns();
     }
     span02.textContent = scorePlayer2;
   }
@@ -55,6 +57,13 @@ function reset() {
   scorePlayer2 = 0;
   span01.textContent = "0";
   span02.textContent = "0";
-  span01.classList.remove("winner", "loser");
-  span02.classList.remove("winner", "loser");
+  span01.classList.remove("has-text-success", "has-text-danger");
+  span02.classList.remove("has-text-success", "has-text-danger");
+  btnP1.disabled = false;
+  btnP2.disabled = false;
 }
+
+const disablebtns = () => {
+  btnP1.disabled = true;
+  btnP2.disabled = true;
+};
